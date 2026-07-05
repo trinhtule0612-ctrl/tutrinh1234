@@ -18,10 +18,10 @@ export async function POST(req: NextRequest) {
     const prompt = `
     Bạn là một chuyên gia AI chuyên trích xuất dữ liệu từ hình ảnh Căn cước công dân (CCCD) hoặc Chứng minh nhân dân (CMND) của Việt Nam.
     Nhiệm vụ của bạn là đọc hình ảnh và trích xuất các thông tin dưới đây thành định dạng JSON.
-    Nếu hình ảnh bị khuyết thông tin ở một trường nào đó (ví dụ: chụp mặt trước thì không có ngày cấp), hãy để chuỗi rỗng "".
+    Nếu hình ảnh bị khuyết thông tin ở một trường nào đó (ví dụ: chụp mặt trước thì không có ngày cấp), hãy để chuỗi rỗng "". Tuy nhiên, hãy vận dụng tối đa dữ liệu có trên thẻ để điền.
     
     Các trường cần trích xuất:
-    - full_name: Họ và tên của người đó (Lưu ý: Tên thường viết IN HOA, nằm ngay dưới chữ "Họ và tên / Full name:").
+    - full_name: Họ và tên của người đó. (Lưu ý: Nếu là mặt trước, tên thường viết IN HOA ngay dưới chữ "Họ và tên". Nếu là mặt sau, hãy tìm HỌ VÀ TÊN trong chuỗi ký tự MRZ ở dưới cùng của thẻ, ví dụ: "NGUYEN<<NGOC<CUONG<<<<" thì xuất ra là "Nguyễn Ngọc Cư" hoặc "NGUYEN NGOC CUONG").
     - birth_date: Ngày tháng năm sinh (Định dạng DD/MM/YYYY).
     - address: Nơi thường trú / Nơi cư trú (Place of residence). Hãy lấy toàn bộ địa chỉ đầy đủ nhất có thể.
     - issue_date: Ngày cấp thẻ (Thường ghi là "Ngày, tháng, năm / Date, month, year:" ở mặt sau, hoặc dòng chữ ngày tháng ở dưới cùng của thẻ. Định dạng DD/MM/YYYY).
