@@ -45,9 +45,8 @@ export default function DashboardPage() {
       const formData = new FormData();
       formData.append("image", fileData.file);
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-      
-      const response = await fetch(`${apiUrl}/ocr`, {
+      // Call the internal Next.js API route
+      const response = await fetch("/api/ocr", {
         method: "POST",
         body: formData,
       });
