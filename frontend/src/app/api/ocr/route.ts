@@ -16,16 +16,16 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(arrayBuffer);
 
     const prompt = `
-    Bạn là một trợ lý ảo chuyên trích xuất dữ liệu từ hình ảnh Căn cước công dân (CCCD) Việt Nam.
-    Hãy đọc hình ảnh được cung cấp và trích xuất các thông tin sau, trả về chính xác định dạng JSON.
-    Nếu có trường nào bị mờ hoặc không thể đọc được, hãy để chuỗi rỗng "".
+    Bạn là một chuyên gia AI chuyên trích xuất dữ liệu từ hình ảnh Căn cước công dân (CCCD) hoặc Chứng minh nhân dân (CMND) của Việt Nam.
+    Nhiệm vụ của bạn là đọc hình ảnh và trích xuất các thông tin dưới đây thành định dạng JSON.
+    Nếu hình ảnh bị khuyết thông tin ở một trường nào đó (ví dụ: chụp mặt trước thì không có ngày cấp), hãy để chuỗi rỗng "".
     
     Các trường cần trích xuất:
-    - full_name: Họ và tên của người đó (Lưu ý: Tên thường được viết in hoa. Có thể nằm ngay dưới chữ "Họ và tên / Full name:").
+    - full_name: Họ và tên của người đó (Lưu ý: Tên thường viết IN HOA, nằm ngay dưới chữ "Họ và tên / Full name:").
     - birth_date: Ngày tháng năm sinh (Định dạng DD/MM/YYYY).
-    - address: Nơi thường trú hoặc Nơi cư trú (Place of residence). Vui lòng ghép tất cả các dòng của địa chỉ thành một dòng liền mạch cách nhau bởi dấu phẩy.
-    - issue_date: Ngày cấp thẻ (Thường nằm ở mặt sau, hoặc nếu có ngày ở phía trên cùng bên trái của ảnh chân dung thì cũng là ngày cấp, hoặc ngày ở dòng dưới cùng. Định dạng DD/MM/YYYY).
-    - issued_by: Nơi cấp (Cơ quan cấp, ví dụ: "Cục Cảnh sát Quản lý hành chính về trật tự xã hội" hoặc "Cục trưởng cục cảnh sát quản lý hành chính về trật tự xã hội"). Nếu không có ở mặt trước, hãy để "".
+    - address: Nơi thường trú / Nơi cư trú (Place of residence). Hãy lấy toàn bộ địa chỉ đầy đủ nhất có thể.
+    - issue_date: Ngày cấp thẻ (Thường ghi là "Ngày, tháng, năm / Date, month, year:" ở mặt sau, hoặc dòng chữ ngày tháng ở dưới cùng của thẻ. Định dạng DD/MM/YYYY).
+    - issued_by: Nơi cấp / Cơ quan cấp (Ví dụ: "Cục trưởng Cục Cảnh sát quản lý hành chính về trật tự xã hội" hoặc "Cục Cảnh sát Quản lý hành chính về trật tự xã hội" ở mặt sau).
     `;
 
     const response = await ai.models.generateContent({
